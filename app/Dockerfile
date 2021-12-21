@@ -12,4 +12,4 @@ COPY . /app
 
 ENTRYPOINT [ "python3" ]
 
-CMD [ "/app/test.py", "9999" ]
+CMD [ "/app/predict.py", "9999" ]
