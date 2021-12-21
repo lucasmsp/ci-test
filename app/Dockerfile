@@ -5,11 +5,11 @@ LABEL maintainer="Lucas Ponce <lucasmsp@dcc.ufmg.br>"
 WORKDIR /app
 
 COPY ./requirements.txt /app/requirements.txt
+
+RUN pip3 install --upgrade pip && pip3 install  --no-cache-dir -r requirements.txt
+
 COPY . /app
-
-RUN pip3 install  --no-cache-dir -r requirements.txt
-
 
 ENTRYPOINT [ "python3" ]
 
-CMD [ "test.py", "9999" ]
+CMD [ "/app/test.py", "9999" ]
