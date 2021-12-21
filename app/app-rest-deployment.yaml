@@ -6,7 +6,7 @@ spec:
   type: NodePort # Expose services to outside
   ports:
   - port: 9999
-    nodePort: 9999
+    nodePort: 31111
   selector:
     app: ci-app
 ---
