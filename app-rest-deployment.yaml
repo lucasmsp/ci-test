@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+apiVersion: v1
+kind: Service
+metadata:
+  name: ci_app
+spec:
+  ports:
+  - port: 9999
+  selector:
+    app: ci_app
+---
+kind: Deployment
+metadata:
+  name: ci_app
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: ci_app
+  template:
+    metadata:
+      labels:
+        app: ci_app
+    spec:
+      containers:
+      - image: lucasmsp/tp2:latest
+        imagePullPolicy: Always
+        name: ci_app
