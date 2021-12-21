@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: ci-app
 spec:
-  type: NodePort # Expose services to outside
+  # type: NodePort # Expose services to outside
   ports:
   - port: 9999
-    nodePort: 31111
+    #nodePort: 31111
   selector:
     app: ci-app
 ---
