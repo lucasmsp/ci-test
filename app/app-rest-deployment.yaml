@@ -6,6 +6,7 @@ metadata:
 spec:
   ports:
   - port: 9999
+    targetPort: 9999
   selector:
     app: ci-app
 ---
