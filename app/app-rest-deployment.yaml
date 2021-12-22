@@ -3,19 +3,20 @@ kind: Service
 metadata:
   name: ci-app
 spec:
-  # type: NodePort # Expose services to outside
   ports:
   - port: 9999
-    #nodePort: 31111
+    protocol: TCP
+    targetPort: 9999
   selector:
     app: ci-app
+  type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ci-app
 spec:
-  replicas: 1
+  replicas: 2
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -27,15 +28,25 @@ spec:
     spec:
       containers:
       - image: lucasmsp/tp2:latest
-        imagePullPolicy: Always
+        imagePullPolicy: Always #Never
         name: ci-app
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
         env:
         - name: url_model
           value: "https://github.com/lucasmsp/ci-test/raw/master/app/model/model.pkl"
         - name: url_column_model
           value: "https://github.com/lucasmsp/ci-test/raw/master/app/model/model_columns.pkl"
         - name: version_model
-          value: "2"
+          value: "3"
+        ports:
+        - containerPort: 9999
+          name: flask
       restartPolicy: Always
              
 
