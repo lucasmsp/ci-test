@@ -1,7 +1,6 @@
 import sys
 import os
-import shutil
-import time
+import urllib.request
 import traceback
 
 from flask import Flask, request, jsonify
@@ -15,14 +14,12 @@ training_data = 'data/titanic.csv'
 include = ['Age', 'Sex', 'Embarked', 'Survived']
 dependent_variable = include[-1]
 
-model_directory = 'model'
-model_file_name = '%s/model.pkl' % model_directory
-model_columns_file_name = '%s/model_columns.pkl' % model_directory
+model_file_name = os.environ["url_model"]
+model_columns_file_name = os.environ["url_column_model"]
+version_model = os.environ["version_model"]
 
-# These will be populated at training time
 model_columns = None
 clf = None
-
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -35,7 +32,7 @@ def predict():
             prediction = list(clf.predict(query))
 
             # Converting to int from int64
-            return jsonify({"prediction": list(map(int, prediction))})
+            return jsonify({"prediction": list(map(int, prediction)), "version": version_model})
 
         except Exception as e:
 
@@ -51,9 +48,9 @@ if __name__ == '__main__':
         port = 80
 
     try:
-        clf = joblib.load(model_file_name)
+        clf = joblib.load(urllib.request.urlopen(model_file_name))
         print('model loaded')
-        model_columns = joblib.load(model_columns_file_name)
+        model_columns = joblib.load(urllib.request.urlopen(model_columns_file_name))
         print('model columns loaded')
 
     except Exception as e:

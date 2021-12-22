@@ -29,3 +29,13 @@ spec:
       - image: lucasmsp/tp2:latest
         imagePullPolicy: Always
         name: ci-app
+        env:
+        - name: url_model
+          value: "https://github.com/lucasmsp/ci-test/raw/master/app/model/model.pkl"
+        - name: url_column_model
+          value: "https://github.com/lucasmsp/ci-test/raw/master/app/model/model_columns.pkl"
+        - name: version_model
+          value: "2"
+      restartPolicy: Always
+             
+
